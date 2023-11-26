@@ -26,7 +26,7 @@ impl App for HoneyApp {
     fn update(&mut self, ctx: &egui::Context, _frame: &mut eframe::Frame) {
         egui::TopBottomPanel::top("control").show(ctx, |ui| {
             ui.horizontal(|ui| {
-                ui.heading("Control");
+                ui.heading("Honey Heist");
                 if ui.button("New Bear").clicked() {
                     self.bear = Some(Bear::new(&mut self.rng, "Foo".to_owned()));
                 }
