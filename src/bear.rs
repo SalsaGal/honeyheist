@@ -1,3 +1,5 @@
+use std::fmt::Display;
+
 use rand::{seq::IteratorRandom, Rng};
 use serde::{Deserialize, Serialize};
 use strum::{EnumIter, IntoEnumIterator};
@@ -12,6 +14,19 @@ pub enum Descriptor {
     Incompetent,
 }
 
+impl Display for Descriptor {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        match self {
+            Self::Rookie => write!(f, "rookie"),
+            Self::WashedUp => write!(f, "washed up"),
+            Self::Retired => write!(f, "retired"),
+            Self::Unhinged => write!(f, "unhinged"),
+            Self::Slick => write!(f, "slick"),
+            Self::Incompetent => write!(f, "incompetent"),
+        }
+    }
+}
+
 #[derive(Clone, Copy, Debug, PartialEq, Eq, EnumIter, Serialize, Deserialize)]
 pub enum Species {
     Grizzly,
@@ -22,6 +37,19 @@ pub enum Species {
     HoneyBadger,
 }
 
+impl Display for Species {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        match self {
+            Self::Grizzly => write!(f, "grizzly bear"),
+            Self::Polar => write!(f, "polar bear"),
+            Self::Panda => write!(f, "panda bear"),
+            Self::Black => write!(f, "black bear"),
+            Self::Sun => write!(f, "sun bear"),
+            Self::HoneyBadger => write!(f, "honey badger"),
+        }
+    }
+}
+
 #[derive(Clone, Copy, Debug, PartialEq, Eq, EnumIter, Serialize, Deserialize)]
 pub enum Role {
     Muscle,
@@ -30,6 +58,19 @@ pub enum Role {
     Hacker,
     Thief,
     Face,
+}
+
+impl Display for Role {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        match self {
+            Self::Muscle => write!(f, "muscle"),
+            Self::Brains => write!(f, "brains"),
+            Self::Driver => write!(f, "driver"),
+            Self::Hacker => write!(f, "hacker"),
+            Self::Thief => write!(f, "thief"),
+            Self::Face => write!(f, "face"),
+        }
+    }
 }
 
 #[derive(Clone, Copy, Debug, PartialEq, Eq, EnumIter, Serialize, Deserialize)]
