@@ -64,12 +64,15 @@ impl Creator {
                 });
         });
 
-        if ui.button("Reroll").clicked() {
-            self.bear = Bear::new(rng, std::mem::take(&mut self.bear.name));
-        } else if ui.button("Play").clicked() {
-            return Some(State::Play(Play::new(self.bear.clone())));
-        }
+        let mut to_ret = None;
+        ui.horizontal(|ui| {
+            if ui.button("Reroll").clicked() {
+                self.bear = Bear::new(rng, std::mem::take(&mut self.bear.name));
+            } else if ui.button("Play").clicked() {
+                to_ret = Some(State::Play(Play::new(self.bear.clone())));
+            }
+        });
 
-        None
+        to_ret
     }
 }
