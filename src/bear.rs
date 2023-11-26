@@ -1,7 +1,8 @@
 use rand::{seq::IteratorRandom, Rng};
+use serde::{Deserialize, Serialize};
 use strum::{EnumIter, IntoEnumIterator};
 
-#[derive(Clone, Copy, Debug, PartialEq, Eq, EnumIter)]
+#[derive(Clone, Copy, Debug, PartialEq, Eq, EnumIter, Serialize, Deserialize)]
 pub enum Descriptor {
     Rookie,
     WashedUp,
@@ -11,7 +12,7 @@ pub enum Descriptor {
     Incompetent,
 }
 
-#[derive(Clone, Copy, Debug, PartialEq, Eq, EnumIter)]
+#[derive(Clone, Copy, Debug, PartialEq, Eq, EnumIter, Serialize, Deserialize)]
 pub enum Species {
     Grizzly,
     Polar,
@@ -21,7 +22,7 @@ pub enum Species {
     HoneyBadger,
 }
 
-#[derive(Clone, Copy, Debug, PartialEq, Eq, EnumIter)]
+#[derive(Clone, Copy, Debug, PartialEq, Eq, EnumIter, Serialize, Deserialize)]
 pub enum Role {
     Muscle,
     Brains,
@@ -31,7 +32,7 @@ pub enum Role {
     Face,
 }
 
-#[derive(Clone, Copy, Debug, PartialEq, Eq, EnumIter)]
+#[derive(Clone, Copy, Debug, PartialEq, Eq, EnumIter, Serialize, Deserialize)]
 pub enum Hat {
     Trilby,
     Top,
@@ -42,7 +43,7 @@ pub enum Hat {
     Crown,
 }
 
-#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Serialize, Deserialize)]
 pub struct Hats {
     pub hat: Hat,
     pub extra_hat: Option<Hat>,
@@ -64,7 +65,7 @@ impl Hats {
     }
 }
 
-#[derive(Clone, Debug, PartialEq, Eq)]
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
 pub struct Bear {
     pub name: String,
     pub descriptor: Descriptor,

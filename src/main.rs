@@ -6,5 +6,6 @@ mod bear;
 
 fn main() {
     let mut rng = thread_rng();
-    dbg!(Bear::new(&mut rng, "Beepboop".to_owned()));
+    let bear = Bear::new(&mut rng, "Beepboop".to_owned());
+    println!("{}", toml::to_string_pretty(&bear).unwrap());
 }

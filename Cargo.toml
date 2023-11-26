@@ -9,4 +9,6 @@ edition = "2021"
 eframe = "0.24.0"
 egui = "0.24.0"
 rand = "0.8.5"
+serde = { version = "1.0.193", features = ["derive"] }
 strum = { version = "0.25.0", features = ["derive"] }
+toml = "0.8.8"
