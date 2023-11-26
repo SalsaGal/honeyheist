@@ -1,11 +1,7 @@
-use std::fs::{read_to_string, File};
-use std::io::Write;
-
 use bear::Bear;
 use creator::Creator;
 use eframe::{App, NativeOptions};
 use rand::rngs::ThreadRng;
-use rfd::FileDialog;
 
 mod bear;
 mod creator;
