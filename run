@@ -1,0 +1,5 @@
+[default]
+cargo run
+
+[default:build]
+cargo build
