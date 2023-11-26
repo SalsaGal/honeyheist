@@ -32,10 +32,12 @@ struct HoneyApp {
 impl App for HoneyApp {
     fn update(&mut self, ctx: &egui::Context, _frame: &mut eframe::Frame) {
         egui::TopBottomPanel::top("control").show(ctx, |ui| {
-            ui.heading("Honey Heist");
-            if ui.button("New Bear").clicked() {
-                self.state = State::Creator(Creator::new(&mut self.rng));
-            }
+            ui.horizontal(|ui| {
+                ui.heading("Honey Heist");
+                if ui.button("New Bear").clicked() {
+                    self.state = State::Creator(Creator::new(&mut self.rng));
+                }
+            });
         });
         egui::CentralPanel::default().show(ctx, |ui| {
             let new_state = match &mut self.state {
