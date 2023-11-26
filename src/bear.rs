@@ -51,16 +51,16 @@ pub struct Hats {
 impl Hats {
     pub fn gen(rng: &mut impl Rng) -> Self {
         let i = rng.gen_range(0..8);
-        Hat::iter()
-            .nth(i)
-            .map(|hat| Hats {
-                hat,
-                extra_hat: None,
-            })
-            .unwrap_or(Hats {
+        Hat::iter().nth(i).map_or(
+            Hats {
                 hat: Hat::iter().choose(rng).unwrap(),
                 extra_hat: Some(Hat::iter().choose(rng).unwrap()),
-            })
+            },
+            |hat| Hats {
+                hat,
+                extra_hat: None,
+            },
+        )
     }
 }
 
