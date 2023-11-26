@@ -2,7 +2,11 @@ use egui::{ComboBox, Ui};
 use rand::Rng;
 use strum::IntoEnumIterator;
 
-use crate::bear::{Bear, Descriptor, Hat, Role, Species};
+use crate::{
+    bear::{Bear, Descriptor, Hat, Role, Species},
+    play::Play,
+    State,
+};
 
 pub struct Creator {
     pub bear: Bear,
@@ -19,7 +23,7 @@ impl Creator {
         }
     }
 
-    pub fn update(&mut self, ui: &mut Ui, rng: &mut impl Rng) {
+    pub fn update(&mut self, ui: &mut Ui, rng: &mut impl Rng) -> Option<State> {
         macro_rules! enum_field {
             ($ty: ident, $value: expr) => {
                 ui.horizontal(|ui| {
@@ -62,6 +66,10 @@ impl Creator {
 
         if ui.button("Reroll").clicked() {
             self.bear = Bear::new(rng, std::mem::take(&mut self.bear.name));
+        } else if ui.button("Play").clicked() {
+            return Some(State::Play(Play::new(self.bear.clone())));
         }
+
+        None
     }
 }

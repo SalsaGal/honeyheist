@@ -1,10 +1,11 @@
-use bear::Bear;
 use creator::Creator;
 use eframe::{App, NativeOptions};
+use play::Play;
 use rand::rngs::ThreadRng;
 
 mod bear;
 mod creator;
+mod play;
 
 fn main() {
     let options = NativeOptions {
@@ -18,9 +19,9 @@ fn main() {
     .unwrap();
 }
 
-enum State {
+pub enum State {
     Creator(Creator),
-    Play(Bear),
+    Play(Play),
 }
 
 struct HoneyApp {
@@ -33,9 +34,14 @@ impl App for HoneyApp {
         egui::TopBottomPanel::top("control").show(ctx, |ui| {
             ui.heading("Honey Heist");
         });
-        egui::CentralPanel::default().show(ctx, |ui| match &mut self.state {
-            State::Creator(creator) => creator.update(ui, &mut self.rng),
-            State::Play(_) => todo!(),
+        egui::CentralPanel::default().show(ctx, |ui| {
+            let new_state = match &mut self.state {
+                State::Creator(creator) => creator.update(ui, &mut self.rng),
+                State::Play(play) => play.update(ui, &mut self.rng),
+            };
+            if let Some(state) = new_state {
+                self.state = state;
+            }
         });
     }
 }
