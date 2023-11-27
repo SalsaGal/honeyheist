@@ -68,6 +68,7 @@ impl Creator {
         ui.horizontal(|ui| {
             if ui.button("Reroll").clicked() {
                 self.bear = Bear::new(rng, std::mem::take(&mut self.bear.name));
+                self.has_extra_hat = self.bear.hats.extra_hat.is_some();
             } else if ui.button("Play").clicked() {
                 to_ret = Some(State::Play(Play::new(self.bear.clone())));
             }
