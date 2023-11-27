@@ -113,6 +113,7 @@ pub struct Bear {
     pub species: Species,
     pub role: Role,
     pub hats: Hats,
+    pub bear: u8,
 }
 
 impl Bear {
@@ -123,6 +124,7 @@ impl Bear {
             species: Species::iter().choose(rng).unwrap(),
             role: Role::iter().choose(rng).unwrap(),
             hats: Hats::gen(rng),
+            bear: 3,
         }
     }
 }

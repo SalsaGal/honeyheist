@@ -22,9 +22,25 @@ impl Play {
             _ => "a",
         };
         ui.label(format!(
-            "You are {article} {} {}, acting as the group's {}",
-            self.bear.descriptor, self.bear.species, self.bear.role
+            "You are {article} {} {}, acting as the group's {}. {} bear points, {} criminal points",
+            self.bear.descriptor,
+            self.bear.species,
+            self.bear.role,
+            self.bear.bear,
+            6 - self.bear.bear,
         ));
+
+        ui.separator();
+
+        ui.horizontal(|ui| {
+            if ui.button("Add Bear").clicked() {
+                self.bear.bear += 1;
+            }
+            if ui.button("Add Criminal").clicked() {
+                self.bear.bear -= 1;
+            }
+        });
+
         None
     }
 }
