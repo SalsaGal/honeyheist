@@ -14,7 +14,10 @@ fn main() {
     eframe::run_native(
         "Honey Heist",
         options,
-        Box::new(|_| Box::<HoneyApp>::default()),
+        Box::new(|cc| {
+            cc.egui_ctx.set_pixels_per_point(1.5);
+            Box::<HoneyApp>::default()
+        }),
     )
     .unwrap();
 }
