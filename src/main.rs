@@ -1,7 +1,12 @@
+use std::fs::{read_to_string, File};
+use std::io::Write;
+
 use creator::Creator;
 use eframe::{App, NativeOptions};
+use egui::Button;
 use play::Play;
 use rand::rngs::ThreadRng;
+use rfd::FileDialog;
 
 mod bear;
 mod creator;
@@ -39,6 +44,38 @@ impl App for HoneyApp {
                 ui.heading("Honey Heist");
                 if ui.button("New Bear").clicked() {
                     self.state = State::Creator(Creator::new(&mut self.rng));
+                }
+                if ui.button("Load Bear").clicked() {
+                    if let Some(bear) = FileDialog::new()
+                        .add_filter("toml", &["toml"])
+                        .pick_file()
+                        .and_then(|path| read_to_string(path).ok())
+                        .and_then(|contents| toml::from_str(&contents).ok())
+                    {
+                        self.state = State::Play(Play::new(bear));
+                    }
+                }
+                if ui
+                    .add_enabled(
+                        matches!(self.state, State::Play(_)),
+                        Button::new("Save Bear"),
+                    )
+                    .clicked()
+                {
+                    if let State::Play(Play { bear }) = &self.state {
+                        if let Some(mut file) = FileDialog::new()
+                            .add_filter("toml", &["toml"])
+                            .save_file()
+                            .and_then(|mut path| {
+                                path.set_extension("toml");
+                                File::create(path).ok()
+                            })
+                        {
+                            write!(file, "{}", toml::to_string_pretty(bear).unwrap()).unwrap();
+                        }
+                    } else {
+                        unreachable!();
+                    }
                 }
             });
         });
