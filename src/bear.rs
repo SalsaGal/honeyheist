@@ -124,6 +124,7 @@ pub struct Bear {
     pub descriptor: Descriptor,
     pub species: Species,
     pub role: Role,
+    #[serde(flatten)]
     pub hats: Hats,
     pub bear: u8,
     pub items: Vec<Item>,
