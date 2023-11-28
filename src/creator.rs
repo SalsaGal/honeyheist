@@ -55,11 +55,16 @@ impl Creator {
                 .show_ui(ui, |ui| {
                     ui.set_enabled(self.has_extra_hat);
                     for variant in Hat::iter() {
-                        ui.selectable_value(
-                            &mut self.bear.hats.extra_hat.unwrap_or(Hat::Trilby),
-                            variant,
-                            format!("{variant:?}"),
-                        );
+                        if ui
+                            .selectable_value(
+                                &mut self.bear.hats.extra_hat.unwrap_or(Hat::Trilby),
+                                variant,
+                                format!("{variant:?}"),
+                            )
+                            .clicked()
+                        {
+                            self.bear.hats.extra_hat = Some(variant);
+                        }
                     }
                 });
         });
