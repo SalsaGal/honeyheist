@@ -30,6 +30,11 @@ impl Play {
             6 - self.bear.bear,
         ));
 
+        ui.label(format!("Items:"));
+        for item in &self.bear.items {
+            ui.label(format!(" - {item}"));
+        }
+
         ui.separator();
 
         ui.horizontal(|ui| {

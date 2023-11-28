@@ -107,6 +107,18 @@ impl Hats {
 }
 
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+pub struct Item {
+    pub name: String,
+    pub count: usize,
+}
+
+impl Display for Item {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        write!(f, "{}x {}", self.count, self.name)
+    }
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
 pub struct Bear {
     pub name: String,
     pub descriptor: Descriptor,
@@ -114,6 +126,7 @@ pub struct Bear {
     pub role: Role,
     pub hats: Hats,
     pub bear: u8,
+    pub items: Vec<Item>,
 }
 
 impl Bear {
@@ -125,6 +138,7 @@ impl Bear {
             role: Role::iter().choose(rng).unwrap(),
             hats: Hats::gen(rng),
             bear: 3,
+            items: vec![],
         }
     }
 }
