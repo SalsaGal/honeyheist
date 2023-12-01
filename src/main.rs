@@ -3,6 +3,7 @@ use std::io::Write;
 
 use config::Config;
 use creator::Creator;
+use dirtytype::Dirty;
 use eframe::{App, NativeOptions};
 use egui::Button;
 use play::Play;
@@ -36,12 +37,14 @@ pub enum State {
 
 struct HoneyApp {
     rng: ThreadRng,
-    config: Config,
+    config: Dirty<Config>,
     state: State,
 }
 
 impl App for HoneyApp {
     fn update(&mut self, ctx: &egui::Context, _frame: &mut eframe::Frame) {
+        self.config.clean(|config| config.save());
+
         egui::TopBottomPanel::top("control").show(ctx, |ui| {
             ui.horizontal(|ui| {
                 ui.heading("Honey Heist");
@@ -52,7 +55,10 @@ impl App for HoneyApp {
                     if let Some(bear) = FileDialog::new()
                         .add_filter("toml", &["toml"])
                         .pick_file()
-                        .and_then(|path| read_to_string(path).ok())
+                        .and_then(|path| {
+                            self.config.last_bear = Some(path.clone());
+                            read_to_string(path).ok()
+                        })
                         .and_then(|contents| toml::from_str(&contents).ok())
                     {
                         self.state = State::Play(Play::new(bear));
@@ -71,6 +77,7 @@ impl App for HoneyApp {
                             .save_file()
                             .and_then(|mut path| {
                                 path.set_extension("toml");
+                                self.config.last_bear = Some(path.clone());
                                 File::create(path).ok()
                             })
                         {
@@ -96,10 +103,18 @@ impl App for HoneyApp {
 
 impl Default for HoneyApp {
     fn default() -> Self {
-        let config = Config::load();
+        let config = Dirty::new(Config::load());
         let mut rng = rand::thread_rng();
         Self {
-            state: State::Creator(Creator::new(&mut rng)),
+            state: config
+                .last_bear
+                .as_ref()
+                .and_then(|path| read_to_string(path).ok())
+                .and_then(|contents| toml::from_str(&contents).ok())
+                .map_or_else(
+                    || State::Creator(Creator::new(&mut rng)),
+                    |bear| State::Play(Play::new(bear)),
+                ),
             config,
             rng,
         }

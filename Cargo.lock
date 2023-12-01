@@ -765,6 +765,12 @@ dependencies = [
 ]
 
 [[package]]
+name = "dirtytype"
+version = "0.5.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "346eca88ea8273daa4002c3ea1cddd31cef8bdda6db097628d83ee78ae0be65e"
+
+[[package]]
 name = "dispatch"
 version = "0.2.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -1354,6 +1360,7 @@ dependencies = [
 name = "honeyheist"
 version = "0.1.0"
 dependencies = [
+ "dirtytype",
  "eframe",
  "egui",
  "etcetera",
