@@ -1,3 +1,7 @@
+use std::io::Write;
+use std::{fs::File, path::PathBuf};
+
+use dirtytype::Dirty;
 use egui::{RichText, Ui};
 use rand::Rng;
 
@@ -7,19 +11,30 @@ use crate::{
 };
 
 pub struct Play {
-    pub bear: Bear,
+    pub bear: Dirty<Bear>,
+    path: Option<PathBuf>,
     last_roll: Option<(u8, bool)>,
 }
 
 impl Play {
-    pub fn new(bear: Bear) -> Self {
+    pub fn new(bear: Bear, path: Option<PathBuf>) -> Self {
         Self {
-            bear,
+            bear: Dirty::new(bear),
+            path,
             last_roll: None,
         }
     }
 
     pub fn update(&mut self, ui: &mut Ui, rng: &mut impl Rng) -> Option<State> {
+        if let Some(path) = &self.path {
+            write!(
+                File::create(path).unwrap(),
+                "{}",
+                toml::to_string_pretty(&self.bear.data).unwrap(),
+            )
+            .unwrap();
+        }
+
         ui.heading(&self.bear.name);
         let article = match self.bear.descriptor {
             Descriptor::Unhinged | Descriptor::Incompetent => "an",

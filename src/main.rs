@@ -53,16 +53,18 @@ impl App for HoneyApp {
                     self.state = State::Creator(Creator::new(&mut self.rng));
                 }
                 if ui.button("Load Bear").clicked() {
-                    if let Some(bear) = FileDialog::new()
+                    if let Some((bear, path)) = FileDialog::new()
                         .add_filter("toml", &["toml"])
                         .pick_file()
                         .and_then(|path| {
                             self.config.last_bear = Some(path.clone());
-                            read_to_string(path).ok()
+                            read_to_string(&path).ok().map(|x| (x, path))
                         })
-                        .and_then(|contents| toml::from_str(&contents).ok())
+                        .and_then(|(contents, path)| {
+                            toml::from_str(&contents).ok().map(|x| (x, path))
+                        })
                     {
-                        self.state = State::Play(Play::new(bear));
+                        self.state = State::Play(Play::new(bear, Some(path)));
                     }
                 }
                 if ui
@@ -82,7 +84,8 @@ impl App for HoneyApp {
                                 File::create(path).ok()
                             })
                         {
-                            write!(file, "{}", toml::to_string_pretty(bear).unwrap()).unwrap();
+                            write!(file, "{}", toml::to_string_pretty(&bear.data).unwrap())
+                                .unwrap();
                         }
                     } else {
                         unreachable!();
@@ -109,12 +112,12 @@ impl Default for HoneyApp {
         Self {
             state: config
                 .last_bear
-                .as_ref()
-                .and_then(|path| read_to_string(path).ok())
-                .and_then(|contents| toml::from_str(&contents).ok())
+                .clone()
+                .and_then(|path| read_to_string(&path).ok().map(|x| (x, path)))
+                .and_then(|(contents, path)| toml::from_str(&contents).ok().map(|x| (x, path)))
                 .map_or_else(
                     || State::Creator(Creator::new(&mut rng)),
-                    |bear| State::Play(Play::new(bear)),
+                    |(bear, path)| State::Play(Play::new(bear, Some(path))),
                 ),
             config,
             rng,
