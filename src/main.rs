@@ -48,6 +48,7 @@ impl App for HoneyApp {
         egui::TopBottomPanel::top("control").show(ctx, |ui| {
             ui.horizontal(|ui| {
                 ui.heading("Honey Heist");
+                ui.label(format!("v{}", env!("CARGO_PKG_VERSION")));
                 if ui.button("New Bear").clicked() {
                     self.state = State::Creator(Creator::new(&mut self.rng));
                 }
