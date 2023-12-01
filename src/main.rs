@@ -1,6 +1,7 @@
 use std::fs::{read_to_string, File};
 use std::io::Write;
 
+use config::Config;
 use creator::Creator;
 use eframe::{App, NativeOptions};
 use egui::Button;
@@ -9,6 +10,7 @@ use rand::rngs::ThreadRng;
 use rfd::FileDialog;
 
 mod bear;
+mod config;
 mod creator;
 mod play;
 
@@ -34,6 +36,7 @@ pub enum State {
 
 struct HoneyApp {
     rng: ThreadRng,
+    config: Config,
     state: State,
 }
 
@@ -93,9 +96,11 @@ impl App for HoneyApp {
 
 impl Default for HoneyApp {
     fn default() -> Self {
+        let config = Config::load();
         let mut rng = rand::thread_rng();
         Self {
             state: State::Creator(Creator::new(&mut rng)),
+            config,
             rng,
         }
     }
