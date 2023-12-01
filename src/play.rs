@@ -1,4 +1,4 @@
-use egui::Ui;
+use egui::{RichText, Ui};
 use rand::Rng;
 
 use crate::{
@@ -34,7 +34,13 @@ impl Play {
             self.bear.criminal(),
         ));
 
-        ui.label("Items:");
+        ui.heading("Items:");
+        for hat in [Some(self.bear.hats.hat), self.bear.hats.extra_hat]
+            .into_iter()
+            .flatten()
+        {
+            ui.label(RichText::new(format!(" - {hat:?}")).italics());
+        }
         for item in &self.bear.items {
             ui.label(format!(" - {item}"));
         }
