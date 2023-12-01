@@ -46,27 +46,25 @@ impl Creator {
         enum_field!(Role, self.bear.role);
         enum_field!(Hat, self.bear.hats.hat);
         ui.horizontal(|ui| {
-            ui.checkbox(&mut self.has_extra_hat, "Has extra hat");
-            ComboBox::from_label("Extra Hat")
-                .selected_text(format!(
-                    "{:?}",
-                    self.bear.hats.extra_hat.unwrap_or(Hat::Trilby)
-                ))
-                .show_ui(ui, |ui| {
-                    ui.set_enabled(self.has_extra_hat);
-                    for variant in Hat::iter() {
-                        if ui
-                            .selectable_value(
-                                &mut self.bear.hats.extra_hat.unwrap_or(Hat::Trilby),
-                                variant,
-                                format!("{variant:?}"),
-                            )
-                            .clicked()
-                        {
-                            self.bear.hats.extra_hat = Some(variant);
+            if ui
+                .checkbox(&mut self.has_extra_hat, "Has extra hat")
+                .clicked()
+            {
+                self.bear.hats.extra_hat = if self.has_extra_hat {
+                    Some(Hat::Trilby)
+                } else {
+                    None
+                }
+            }
+            if let Some(extra_hat) = &mut self.bear.hats.extra_hat {
+                ComboBox::from_label("")
+                    .selected_text(format!("{extra_hat:?}"))
+                    .show_ui(ui, |ui| {
+                        for hat in Hat::iter() {
+                            ui.selectable_value(extra_hat, hat, format!("{hat:?}"));
                         }
-                    }
-                });
+                    });
+            }
         });
 
         let mut to_ret = None;
