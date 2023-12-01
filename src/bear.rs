@@ -142,4 +142,8 @@ impl Bear {
             items: vec![],
         }
     }
+
+    pub fn criminal(&self) -> u8 {
+        6 - self.bear
+    }
 }

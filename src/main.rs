@@ -62,7 +62,7 @@ impl App for HoneyApp {
                     )
                     .clicked()
                 {
-                    if let State::Play(Play { bear }) = &self.state {
+                    if let State::Play(Play { bear, .. }) = &self.state {
                         if let Some(mut file) = FileDialog::new()
                             .add_filter("toml", &["toml"])
                             .save_file()
