@@ -2,7 +2,7 @@ use std::io::Write;
 use std::{fs::File, path::PathBuf};
 
 use dirtytype::Dirty;
-use egui::{Color32, DragValue, RichText, TextEdit, Ui};
+use egui::{Button, Color32, DragValue, RichText, TextEdit, Ui};
 use rand::Rng;
 
 use crate::bear::Item;
@@ -61,14 +61,23 @@ impl Play {
 
         ui.heading("Items:");
         let mut changed_item = None;
+        let mut increase_bear = false;
         for (index, item) in self.bear.items.iter_mut().enumerate() {
             ui.horizontal(|ui| {
                 let response = ui.add(DragValue::new(&mut item.count).max_decimals(0));
-                if (response.drag_released() || response.lost_focus()) && item.count == 0 {
+                ui.label(item.name.to_string());
+                if item.name == "Honey" {
+                    if item.count > 0 && ui.button("Eat").clicked() {
+                        item.count -= 1;
+                        increase_bear = true;
+                    }
+                } else if (response.drag_released() || response.lost_focus()) && item.count == 0 {
                     changed_item = Some(index);
                 }
-                ui.label(item.name.to_string());
             });
+        }
+        if increase_bear {
+            self.bear.bear = (self.bear.bear + 1).min(6);
         }
         if let Some(item) = changed_item {
             self.bear.items.remove(item);

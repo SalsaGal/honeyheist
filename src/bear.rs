@@ -153,7 +153,10 @@ impl Bear {
             role: Role::iter().choose(rng).unwrap(),
             hats: Hats::gen(rng),
             bear: 3,
-            items: vec![],
+            items: vec![Item {
+                name: "Honey".to_owned(),
+                count: 0,
+            }],
         }
     }
 
