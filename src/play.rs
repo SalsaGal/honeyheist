@@ -2,7 +2,7 @@ use std::io::Write;
 use std::{fs::File, path::PathBuf};
 
 use dirtytype::Dirty;
-use egui::{RichText, Ui};
+use egui::{Color32, Label, RichText, Ui};
 use rand::Rng;
 
 use crate::{
@@ -51,6 +51,12 @@ impl Play {
             self.bear.criminal(),
             self.bear.hats,
         ));
+
+        if self.bear.bear == 6 {
+            ui.label(RichText::new("Gone Wild!").color(Color32::RED));
+        } else if self.bear.criminal() == 6 {
+            ui.label(RichText::new("Gone Criminal!").color(Color32::RED));
+        }
 
         ui.heading("Items:");
         for item in &self.bear.items {
