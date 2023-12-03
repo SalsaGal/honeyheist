@@ -15,13 +15,11 @@ mkdir release
 
 cargo build --release
 cp target/release/honeyheist release
-cp -r assets release
 zip -r target/linux.zip release
 
 rm release/honeyheist
 RUSTFLAGS='-L /usr/x86_64-w64-mingw32/lib' cargo zigbuild --target x86_64-pc-windows-gnu --release
 cp target/x86_64-pc-windows-gnu/release/honeyheist.exe release
-cp -r assets release
 zip -r target/windows.zip release
 
 rm -rf release
