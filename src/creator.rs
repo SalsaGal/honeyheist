@@ -15,7 +15,7 @@ pub struct Creator {
 
 impl Creator {
     pub fn new(rng: &mut impl Rng) -> Self {
-        let bear = Bear::new(rng, "Unnamed Bear".to_owned());
+        let bear = Bear::new(rng);
 
         Self {
             has_extra_hat: bear.hats.extra_hat.is_some(),
@@ -70,7 +70,7 @@ impl Creator {
         let mut to_ret = None;
         ui.horizontal(|ui| {
             if ui.button("Reroll").clicked() {
-                self.bear = Bear::new(rng, std::mem::take(&mut self.bear.name));
+                self.bear = Bear::new(rng);
                 self.has_extra_hat = self.bear.hats.extra_hat.is_some();
             } else if ui.button("Play").clicked() {
                 to_ret = Some(State::Play(Play::new(self.bear.clone(), None)));

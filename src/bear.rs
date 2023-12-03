@@ -141,9 +141,13 @@ pub struct Bear {
 }
 
 impl Bear {
-    pub fn new(rng: &mut impl Rng, name: String) -> Self {
+    pub fn new(rng: &mut impl Rng) -> Self {
         Self {
-            name,
+            name: include_str!("names.txt")
+                .lines()
+                .choose(rng)
+                .unwrap()
+                .to_owned(),
             descriptor: Descriptor::iter().choose(rng).unwrap(),
             species: Species::iter().choose(rng).unwrap(),
             role: Role::iter().choose(rng).unwrap(),
