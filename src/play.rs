@@ -78,10 +78,24 @@ impl Play {
             .lost_focus()
             && !self.new_item.is_empty()
         {
-            self.bear.items.push(Item {
-                name: std::mem::take(&mut self.new_item),
-                count: 1,
-            });
+            for item in std::mem::take(&mut self.new_item).split(',').map(str::trim) {
+                let count = item
+                    .chars()
+                    .take_while(|c| char::is_digit(*c, 10))
+                    .collect::<String>()
+                    .parse()
+                    .unwrap_or(1);
+
+                self.bear.items.push(Item {
+                    name: item
+                        .chars()
+                        .skip_while(|c| char::is_digit(*c, 10))
+                        .collect::<String>()
+                        .trim()
+                        .to_owned(),
+                    count,
+                });
+            }
         }
 
         ui.separator();
