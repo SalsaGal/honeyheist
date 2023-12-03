@@ -2,7 +2,7 @@ use std::io::Write;
 use std::{fs::File, path::PathBuf};
 
 use dirtytype::Dirty;
-use egui::{Color32, RichText, TextEdit, Ui};
+use egui::{Color32, DragValue, RichText, TextEdit, Ui};
 use rand::Rng;
 
 use crate::bear::Item;
@@ -60,8 +60,11 @@ impl Play {
         }
 
         ui.heading("Items:");
-        for item in &self.bear.items {
-            ui.label(format!(" - {item}"));
+        for item in &mut self.bear.items {
+            ui.horizontal(|ui| {
+                ui.label(format!(" - {}", &item.name));
+                ui.add(DragValue::new(&mut item.count).max_decimals(0));
+            });
         }
         if ui
             .add(TextEdit::singleline(&mut self.new_item).hint_text("New Item"))
