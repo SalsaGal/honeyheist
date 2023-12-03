@@ -2,7 +2,7 @@ use std::io::Write;
 use std::{fs::File, path::PathBuf};
 
 use dirtytype::Dirty;
-use egui::{Color32, RichText, Ui};
+use egui::{Color32, RichText, TextEdit, Ui};
 use rand::Rng;
 
 use crate::bear::Item;
@@ -63,7 +63,11 @@ impl Play {
         for item in &self.bear.items {
             ui.label(format!(" - {item}"));
         }
-        if ui.text_edit_singleline(&mut self.new_item).lost_focus() && !self.new_item.is_empty() {
+        if ui
+            .add(TextEdit::singleline(&mut self.new_item).hint_text("New Item"))
+            .lost_focus()
+            && !self.new_item.is_empty()
+        {
             self.bear.items.push(Item {
                 name: std::mem::take(&mut self.new_item),
                 count: 1,
