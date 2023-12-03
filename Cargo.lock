@@ -1358,7 +1358,7 @@ dependencies = [
 
 [[package]]
 name = "honeyheist"
-version = "0.1.0"
+version = "0.2.0"
 dependencies = [
  "dirtytype",
  "eframe",
