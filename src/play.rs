@@ -63,11 +63,11 @@ impl Play {
         let mut changed_item = None;
         for (index, item) in self.bear.items.iter_mut().enumerate() {
             ui.horizontal(|ui| {
-                ui.label(format!(" - {}", &item.name));
                 let response = ui.add(DragValue::new(&mut item.count).max_decimals(0));
                 if (response.drag_released() || response.lost_focus()) && item.count == 0 {
                     changed_item = Some(index);
                 }
+                ui.label(format!("{}", &item.name));
             });
         }
         if let Some(item) = changed_item {
