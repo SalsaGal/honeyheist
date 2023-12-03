@@ -60,11 +60,18 @@ impl Play {
         }
 
         ui.heading("Items:");
-        for item in &mut self.bear.items {
+        let mut changed_item = None;
+        for (index, item) in self.bear.items.iter_mut().enumerate() {
             ui.horizontal(|ui| {
                 ui.label(format!(" - {}", &item.name));
-                ui.add(DragValue::new(&mut item.count).max_decimals(0));
+                let response = ui.add(DragValue::new(&mut item.count).max_decimals(0));
+                if (response.drag_released() || response.lost_focus()) && item.count == 0 {
+                    changed_item = Some(index);
+                }
             });
+        }
+        if let Some(item) = changed_item {
+            self.bear.items.remove(item);
         }
         if ui
             .add(TextEdit::singleline(&mut self.new_item).hint_text("New Item"))
