@@ -106,6 +106,16 @@ impl Hats {
     }
 }
 
+impl Display for Hats {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        if let Some(extra) = self.extra_hat {
+            write!(f, "a {:?} and a {extra:?}", self.hat)
+        } else {
+            write!(f, "a {:?}", self.hat)
+        }
+    }
+}
+
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
 pub struct Item {
     pub name: String,

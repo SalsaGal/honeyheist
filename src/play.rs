@@ -14,6 +14,7 @@ pub struct Play {
     pub bear: Dirty<Bear>,
     path: Option<PathBuf>,
     last_roll: Option<(u8, bool)>,
+    new_item: String,
 }
 
 impl Play {
@@ -22,6 +23,7 @@ impl Play {
             bear: Dirty::new(bear),
             path,
             last_roll: None,
+            new_item: String::new(),
         }
     }
 
@@ -41,21 +43,16 @@ impl Play {
             _ => "a",
         };
         ui.label(format!(
-            "You are {article} {} {}, acting as the group's {}.\n{} bear points, {} criminal points",
+            "You are {article} {} {}, acting as the group's {}.\n{} bear points, {} criminal points. You are wearing {}",
             self.bear.descriptor,
             self.bear.species,
             self.bear.role,
             self.bear.bear,
             self.bear.criminal(),
+            self.bear.hats,
         ));
 
         ui.heading("Items:");
-        for hat in [Some(self.bear.hats.hat), self.bear.hats.extra_hat]
-            .into_iter()
-            .flatten()
-        {
-            ui.label(RichText::new(format!(" - {hat:?}")).italics());
-        }
         for item in &self.bear.items {
             ui.label(format!(" - {item}"));
         }
