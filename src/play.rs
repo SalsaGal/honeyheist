@@ -67,7 +67,7 @@ impl Play {
                 if (response.drag_released() || response.lost_focus()) && item.count == 0 {
                     changed_item = Some(index);
                 }
-                ui.label(format!("{}", &item.name));
+                ui.label(item.name.to_string());
             });
         }
         if let Some(item) = changed_item {
