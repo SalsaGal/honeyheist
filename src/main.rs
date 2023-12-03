@@ -22,7 +22,7 @@ fn main() {
         ..Default::default()
     };
     eframe::run_native(
-        "Honey Heist",
+        "Honey Heist Helper",
         options,
         Box::new(|cc| {
             cc.egui_ctx.set_pixels_per_point(1.5);
@@ -49,7 +49,7 @@ impl App for HoneyApp {
 
         egui::TopBottomPanel::top("control").show(ctx, |ui| {
             ui.horizontal(|ui| {
-                ui.heading("Honey Heist");
+                ui.heading("Honey Heist Helper");
                 ui.label(format!("v{}", env!("CARGO_PKG_VERSION")));
                 if ui.button("New Bear").clicked() {
                     self.state = State::Creator(Creator::new(&mut self.rng));
