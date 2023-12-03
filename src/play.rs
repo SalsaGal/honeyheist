@@ -79,9 +79,9 @@ impl Play {
             if let Some((roll, skill)) = roll {
                 let success = roll <= skill;
                 if success {
-                    self.bear.bear += 1;
-                } else {
                     self.bear.bear -= 1;
+                } else {
+                    self.bear.bear += 1;
                 }
                 self.last_roll = Some((roll, success));
             }
