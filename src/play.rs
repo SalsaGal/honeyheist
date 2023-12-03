@@ -44,7 +44,7 @@ impl Play {
             _ => "a",
         };
         ui.label(format!(
-            "You are {article} {} {}, acting as the group's {}.\n{} bear points, {} criminal points. You are wearing {}",
+            "You are {article} {} {}, acting as the group's {}.\n{} bear points, {} criminal points. You are wearing {}.",
             self.bear.descriptor,
             self.bear.species,
             self.bear.role,
