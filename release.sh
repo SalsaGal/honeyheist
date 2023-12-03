@@ -10,4 +10,4 @@ cd target/release
 zip -r "../linux-${version[1]}.zip" honeyheist
 
 cd ../x86_64-pc-windows-gnu/release
-zip -r "../../windows${version[1]}.zip" honeyheist.exe
+zip -r "../../windows-${version[1]}.zip" honeyheist.exe
