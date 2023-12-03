@@ -9,13 +9,3 @@ cargo clippy --fix --allow-dirty -- -W clippy::pedantic
 
 [windows]
 RUSTFLAGS='-L /usr/x86_64-w64-mingw32/lib' cargo zigbuild --target x86_64-pc-windows-gnu
-
-[release]
-cargo build --release
-RUSTFLAGS='-L /usr/x86_64-w64-mingw32/lib' cargo zigbuild --target x86_64-pc-windows-gnu --release
-
-cd target/release
-zip -r ../linux.zip honeyheist
-
-cd ../x86_64-pc-windows-gnu/release
-zip -r ../../windows.zip honeyheist.exe
