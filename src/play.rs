@@ -102,10 +102,10 @@ impl Play {
 
         ui.horizontal(|ui| {
             if ui.button("Add Bear").clicked() {
-                self.bear.bear += 1;
+                self.bear.bear = (self.bear.bear + 1).min(6);
             }
             if ui.button("Add Criminal").clicked() {
-                self.bear.bear -= 1;
+                self.bear.bear = self.bear.bear.saturating_sub(1);
             }
         });
         ui.horizontal(|ui| {
@@ -120,9 +120,9 @@ impl Play {
             if let Some((roll, skill)) = roll {
                 let success = roll <= skill;
                 if success {
-                    self.bear.bear -= 1;
+                    self.bear.bear = self.bear.bear.saturating_sub(1);
                 } else {
-                    self.bear.bear += 1;
+                    self.bear.bear = (self.bear.bear + 1).min(6);
                 }
                 self.last_roll = Some((roll, success));
             }
