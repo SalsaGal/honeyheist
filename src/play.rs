@@ -2,7 +2,7 @@ use std::io::Write;
 use std::{fs::File, path::PathBuf};
 
 use dirtytype::Dirty;
-use egui::{Button, Color32, DragValue, RichText, TextEdit, Ui};
+use egui::{Color32, DragValue, RichText, TextEdit, Ui};
 use rand::Rng;
 
 use crate::bear::Item;
@@ -88,6 +88,12 @@ impl Play {
             && !self.new_item.is_empty()
         {
             for item in std::mem::take(&mut self.new_item).split(',').map(str::trim) {
+                let name = item
+                    .chars()
+                    .skip_while(|c| char::is_digit(*c, 10))
+                    .collect::<String>()
+                    .trim()
+                    .to_owned();
                 let count = item
                     .chars()
                     .take_while(|c| char::is_digit(*c, 10))
@@ -95,15 +101,11 @@ impl Play {
                     .parse()
                     .unwrap_or(1);
 
-                self.bear.items.push(Item {
-                    name: item
-                        .chars()
-                        .skip_while(|c| char::is_digit(*c, 10))
-                        .collect::<String>()
-                        .trim()
-                        .to_owned(),
-                    count,
-                });
+                if let Some(item) = self.bear.items.iter_mut().find(|item| item.name == name) {
+                    item.count += count;
+                } else {
+                    self.bear.items.push(Item { name, count });
+                }
             }
         }
 
