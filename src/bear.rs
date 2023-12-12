@@ -165,3 +165,22 @@ impl Bear {
         6 - self.bear
     }
 }
+
+impl Display for Bear {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        let article = match self.descriptor {
+            Descriptor::Unhinged | Descriptor::Incompetent => "an",
+            _ => "a",
+        };
+        write!(
+            f,
+            "You are {article} {} {}, acting as the group's {}.\n{} bear points, {} criminal points. You are wearing {}.",
+            self.descriptor,
+            self.species,
+            self.role,
+            self.bear,
+            self.criminal(),
+            self.hats,
+        )
+    }
+}

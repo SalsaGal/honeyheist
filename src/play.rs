@@ -7,7 +7,7 @@ use rand::Rng;
 
 use crate::bear::Item;
 use crate::{
-    bear::{Bear, Descriptor},
+    bear::{Bear},
     State,
 };
 
@@ -39,19 +39,7 @@ impl Play {
         }
 
         ui.heading(&self.bear.name);
-        let article = match self.bear.descriptor {
-            Descriptor::Unhinged | Descriptor::Incompetent => "an",
-            _ => "a",
-        };
-        ui.label(format!(
-            "You are {article} {} {}, acting as the group's {}.\n{} bear points, {} criminal points. You are wearing {}.",
-            self.bear.descriptor,
-            self.bear.species,
-            self.bear.role,
-            self.bear.bear,
-            self.bear.criminal(),
-            self.bear.hats,
-        ));
+        ui.label(format!("{}", *self.bear));
 
         if self.bear.bear == 6 {
             ui.label(RichText::new("Gone Wild!").color(Color32::RED));
