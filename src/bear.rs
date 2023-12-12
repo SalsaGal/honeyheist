@@ -137,6 +137,7 @@ pub struct Bear {
     #[serde(flatten)]
     pub hats: Hats,
     pub bear: u8,
+    #[serde(rename = "item")]
     pub items: Vec<Item>,
 }
 
