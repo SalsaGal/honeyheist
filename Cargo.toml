@@ -7,8 +7,8 @@ edition = "2021"
 
 [dependencies]
 dirtytype = "0.5.1"
-eframe = "0.24.0"
-egui = "0.24.0"
+eframe = "0.24.1"
+egui = "0.24.1"
 etcetera = "0.8.0"
 rand = "0.8.5"
 rfd = "0.12.1"
