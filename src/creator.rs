@@ -3,9 +3,9 @@ use rand::Rng;
 use strum::IntoEnumIterator;
 
 use crate::{
+    app::State,
     bear::{Bear, Descriptor, Hat, Role, Species},
     play::Play,
-    State,
 };
 
 pub struct Creator {

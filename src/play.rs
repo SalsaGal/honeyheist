@@ -6,10 +6,7 @@ use egui::{Color32, DragValue, RichText, TextEdit, Ui};
 use rand::Rng;
 
 use crate::bear::Item;
-use crate::{
-    bear::{Bear},
-    State,
-};
+use crate::{app::State, bear::Bear};
 
 pub struct Play {
     pub bear: Dirty<Bear>,
